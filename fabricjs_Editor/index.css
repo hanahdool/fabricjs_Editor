@@ -1,0 +1,32 @@
+
+
+div {
+  border: 1px solid grey;
+}
+
+
+b {
+  background-color: lightpink;
+}
+
+#toolbar > div {
+  display: inline-block;
+}
+
+#canvas-wrapper {
+  display: inline-block;
+}
+
+#canvas-wrapper #canvas {
+  border: 1px solid black;
+}
+
+#editor {
+  display: inline-block;
+  vertical-align: top;
+}
+
+
+input[type="number"] {
+  width: 50px;
+}

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="index.css">
+  <script src = "js/fabric.js"></script>
+  <script src = "js/fabric.curvedText.js"></script>
+  <script src = "js/underscore.js"></script>
+  <script src = "js/jquery.js"></script>
+  <!--<script src = "js/partial.js"></script>-->
+  <script src = "js/mousetrap.js"></script>
+
+  <script src = "main.js"></script>
+  <script src = "_add_object.js"></script>
+  <script src = "_alignment.js"></script>
+  <script src = "_fill.js"></script>
+  <script src = "_stroke.js"></script>
+  <script src = "_shadow.js"></script>
+  <script src = "_mirror.js"></script>
+  <script src = "_text.js"></script>
+  <script src = "_wordArt.js"></script>
+  <script src = "_keyboard_shortcut.js"></script>
+  <script src = "_image.js"></script>
+</head>
+<body>
+
+
+<div id="toolbar">
+  <div id="add_object">
+    <br>
+    <b>객체 추가</b>
+    <br>
+    <button id="add_rect"> 사각형 추가 </button>
+    <button id="add_triangle"> 삼각형 추가 </button>
+    <button id="add_circle"> 원 추가 </button>
+    <button id="add_text"> 텍스트 추가 </button>
+    <button id="add_wordArt"> 워드아트 추가 </button>
+    <button id="add_image"> 이미지 추가 </button>
+  </div>
+  <div id="undo_redo">
+    <button id="undo"> undo </button>
+    <button id="redo"> redo </button>
+  </div>
+</div>
+
+<div id="canvas-wrapper">
+  <canvas id="canvas" width="800" height="800"></canvas>
+</div>
+
+
+<div id="editor">
+
+
+
+  <div id="fixed">
+
+
+  </div>
+
+  <div id="basic">
+
+    <div id="alignment">
+      <label><b>v 정렬</b></label>
+      <br>
+      <br>
+      <button id="bringBack">뒤로</button>
+      <button id="bringFront">앞으로</button>
+      <button id="bringVeryBack">맨 뒤로</button>
+      <button id="bringVeryFront">맨 앞으로</button>
+      <br>
+      <button id="group_btn">그룹묶기</button>
+      <button id="ungroup_btn">그룹풀기</button>
+      <br>
+      센터 정렬?, 지우기, 자르기
+      <hr>
+      [회전] <input id="angle_range" type="range" min="0" max="360" value="0"/> <input id="angle_number" type="number" value="0"/>
+      <hr>
+      [위치]
+      <br>
+      x <input id="left_range" type="range" min="-100" max="800" value="0"/> <input id="left_number" type="number" value="0"/>
+      y <input id="top_range" type="range" min="-100" max="800" value="0"/> <input id="top_number" type="number" value="0"/>
+      <hr>
+      [크기]
+      <br>
+      너비 <input id="width_range" type="range" min="0" max="800" value="0"/> <input id="width_number" type="number" value="0"/>
+      높이 <input id="height_range" type="range" min="0" max="800" value="0"/> <input id="height_number" type="number" value="0"/>
+      <br>
+      <input type="checkbox"> 비율 유지
+      <hr>
+      <input type="checkbox"> 상하반전
+      <input type="checkbox"> 좌우반전
+    </div>
+    <div id="fill">
+      <label><b>v 채우기</b></label>
+      <br>
+      색깔 <input class="color" type="color"/> <button id="no_fill_btn">채우기 없음</button>
+      <br>
+      불투명도 <input class="opacity_range" type="range" min="0" max="100" value="100"/><input class="opacity_number" type="number" value="100"/>
+    </div>
+
+    <div id="stroke" class="option">
+      <label><input type ="checkbox" class="checkbox"><b>테두리</b></label>
+      <div class="settings" hidden>
+        <br>
+        스타일
+        <select class="style" id="stroke_style">
+          <option value="0">선0</option>
+          <option value="1">선1</option>
+          <option value="2">선2</option>
+          <option value=3>선3</option>
+          <option value=4>선4</option>
+          <option value=5>선5</option>
+        </select>
+        <br>
+        두께 <input class="range" type="range" min="0" max="100" value="3"/><input class="number" type="number" value="3"/>
+        <br>
+        색깔 <input class="color" type="color"/>
+      </div>
+    </div>
+
+    <div id="shadow" class="option">
+      <label><input type ="checkbox" class="checkbox"><b>그림자</b></label>
+      <div class="settings" hidden>
+        <br>
+        흐림(번짐 효과) <input id="blur_range" type="range" min="0" max="100" value="5"/><input id="blur_number" type="number" value="5"/>
+        <br>
+        오프셋X <input id="offsetX_range" type="range" min="-50" max="50" value="10"/><input id="offsetX_number" type="number" value="10"/>
+        <br>
+        오프셋Y <input id="offsetY_range" type="range" min="-50" max="50" value="10"/><input id="offsetY_number" type="number" value="10"/>
+        <br>
+        <del>불투명도</del> <input id="opacity_range" type="range" min="0" max="100" value="50"/><input id="opacity_number" type="number" value="50"/>
+        <br>
+        그림자 색깔 <input class="color" id="color" type="color"/> <!-- 직접 입력할 수도 있게? -->
+
+      </div>
+    </div>
+
+
+    <div id="mirror" class="option">
+      <label><input type ="checkbox" class="checkbox"><del><b>반사</b></del></label>
+      <div class="settings" hidden>
+        <br>
+        <input class="range" type="range" min="0" max="100" value="50"/><input class="number" type="number" value="50"/>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ------------------------------------------------------------------------------------------------------------ -->
+
+  <div id="text" class="option"> <!-- class="settings" ?? -->
+
+    <label><b>텍스트</b></label>
+    <br>
+    <label>[ 부분적용 가능 ]</label>
+    <br>
+    <span>글씨체</span>
+    <select class="style" id="textStyle">
+      <option value="0">글씨체0</option>
+      <option value="1">글씨체1</option>
+      <option value="2">글씨체2</option>
+      <option value=3>글씨체3</option>
+      <option value=4>글씨체4</option>
+      <option value=5>글씨체5</option>
+    </select>
+    <br>
+    <span>글씨색</span><input type="color" id="textColor"> <!-- value="#ff0000" 초기 색깔 -->
+    <span>글씨배경색</span><input type="color" id="textBackgroundColor"> <!-- value="#ff0000" 초기 색깔 -->
+    <span>글씨크기</span><input type="number" id="textSize" value=50> <!-- value="#ff0000" 초기 색깔 -->
+    <!--<button>글씨체</button>-->
+
+    <br>
+    <span>글자 테두리 : </span>
+    <span>색깔</span><input type="color" id="textStrokeColor">
+    <span>두께</span><input type="number" id="textStrokeWidth" value="1">
+
+    <br>
+    <button id="bold" checking="false">B</button>
+    <button id="italic" checking="false">I</button>
+    <br>
+    <button id="underLine" checking="false" class="text_line">_</button>
+    <button id="middleLine" checking="false" class="text_line">―</button> <!-- lineThrough -->
+    <button id="overLine" checking="false" class="text_line">￣</button>
+    <br>
+    <br>
+    <label>[ 부분적용 불가능 ]</label>
+    <br>
+    <span>배경색</span><input type="color" id="backgroundColor"> <!-- value="#ff0000" 초기 색깔 -->
+    <button id="left">left</button>
+    <button id="center">center</button>
+    <button id="right">right</button>
+    <br>
+    <span>줄간격</span><input type="number" id="lineHeight" value="1"/>
+    <span>padding</span><input type="number" id="padding" value="0" min="0"/> <!-- 음수값도 되긴 하넹.. -->
+    <br>
+    <button id="pattern">패턴 입히기</button>
+    <br>
+  </div>
+
+  <div id="wordArt" class="option"> <!-- class="settings" ?? -->
+    <label><b>워드아트</b></label>
+    <br>
+
+    <input type="text" id="text_input" value="aaaaaaaaa" /><br>
+    Reverse : <input type="checkbox" name="reverse" id="reverse" /><br>
+    Radius : <input type="range"  min="0" max="400" value="50" id="radius" /><br>
+    Spacing : <input type="range"  min="5" max="40" value="20" id="spacing" /><br>
+    Angle : 0 <input type="range"  min="0" max="360" value="0" id="angle" /> 360 <br>  <!-- 공통 -->
+    <!--Color : <input type="color"  value="blue" id="fill" /><br>-->
+
+    <br>
+    <button id="convert">Convert Text/Curved</button>
+
+  </div>
+
+  <div id="image" class="option">
+    <label><b>업로드 이미지</b></label>
+    <br>
+    <button id="cropMode_btn">자르기 모드</button>
+    <button id="crop_btn">자르기!!</button>
+    <button id="cropCancel_btn">자르기 취소</button>
+    <br>
+    <button id="initialize_btn"><del>이미지 원상태로 복구</del></button>
+    <br>
+    <button id="flipX_btn">좌우반전</button>
+    <button id="flipY_btn">상하반전</button>
+  </div>
+
+</div>
+
+<script>
+
+
+  console.log("index.html load");
+
+  var canvas = new fabric.Canvas('canvas');
+  canvas.preserveObjectStacking = true;
+
+  var stroke_dash_ary = [
+    null,
+    [ 5, 10 ],
+    [ 10, 5 ],
+    [ 2, 2 ],
+    [ 5, 20, 20, 5 ],
+    [ 50, 2 ]
+  ];
+
+
+
+  // 전역 함수들
+
+  function set_angle_html(angle) {
+    $('#alignment #angle_range').val(angle);
+    $('#alignment #angle_number').val(angle);
+  }
+  function set_left_html(left) {
+    $('#alignment #left_range').val(left);
+    $('#alignment #left_number').val(left);
+  }
+  function set_top_html(top) {
+    $('#alignment #top_range').val(top);
+    $('#alignment #top_number').val(top);
+  }
+  function set_width_html(width) {
+    $('#alignment #width_range').val(width);
+    $('#alignment #width_number').val(width);
+  }
+  function set_height_html(height) {
+    $('#alignment #height_range').val(height);
+    $('#alignment #height_number').val(height);
+  }
+
+
+
+  function set_fill_html(color, opacity) {
+    $('#fill .color').val(color);
+    $('#fill .opacity_range').val(opacity);
+    $('#fill .opacity_number').val(opacity);
+  }
+
+  //  function set_fill_active(color) { // 이거 안씀
+  //    set_attribute_active('fill', color);
+  //  }
+
+  function set_stroke_html(style, width, color) {
+    // style = _.findKey(stroke_dash_ary, style) 이거나 둘다 되게
+    $('#stroke .style').val(style);
+    $('#stroke .range').val(width); $('#stroke .number').val(width);
+    $('#stroke .color').val(color); // black
+  }
+
+  function set_stroke_active(style, width, color) {
+    set_attribute_active('stroke', {   // 이건 안될 것 같은데..
+      strokeDashArray: stroke_dash_ary[style],
+      strokeWidth: width,
+      stroke: color
+    });
+  }
+  function unset_stroke_active() {
+    set_attribute_active('stroke');
+  }
+
+  function set_shadow_html(blur, offsetX, offsetY, opacity, color) {
+    $('#shadow #blur_range').val(blur); $('#shadow #blur_number').val(blur);
+    $('#shadow #offsetX_range').val(offsetX); $('#shadow #offsetX_number').val(offsetX);
+    $('#shadow #offsetY_range').val(offsetY); $('#shadow #offsetY_number').val(offsetY);
+    $('#shadow #opacity_range').val(opacity); $('#shadow #opacity_number').val(opacity);
+    $('#shadow .color').val(color);
+  }
+
+  function set_shadow_active(blur, offsetX, offsetY, opacity, color) {
+    set_attribute_active('shadow', {
+      color: color,
+      blur: blur,
+      offsetX: offsetX,
+      offsetY: offsetY
+    });
+  }
+
+  function unset_shadow_active() {
+    set_attribute_active('shadow');
+  }
+
+
+  // 활성화 되어있는 객체(혹은 그룹)의 속성?을 셋팅
+  function set_attribute_active(attr, val) { // set_option_active
+    if (canvas.getActiveObject()) {
+      canvas.getActiveObject().set(attr, val);
+    } else {
+      _.each(canvas.getActiveGroup()._objects, function(o) {
+        o.set(attr, val);
+      });
+    }
+  }
+
+  function set_attr_attr_active(attr, attr2, val) {
+    if (canvas.getActiveObject()) {
+      canvas.getActiveObject()[attr][attr2] = val;
+    } else {
+      _.each(canvas.getActiveGroup()._objects, function(o) {
+        o[attr][attr2] = val;
+      });
+    }
+  }
+
+
+
+  function set_attribute_active_forText(attr, val) { // attr 이렇게 안되면 객체로 받아서??
+    if (canvas.getActiveGroup()) {
+      _.each(canvas.getActiveGroup()._objects, function(o) {
+        o.set(attr, val);
+      })
+    } else { //Object
+      var active = canvas.getActiveObject(), o = {}; o[attr] = val; // 다른 방법 없나
+      if (active.setSelectionStyles && active.isEditing) active.setSelectionStyles(o)//.setCoords();
+      else active.set(attr, val)//.setCoords();
+    }
+
+  }
+
+
+
+
+
+  var r = function() { canvas.renderAll(); };
+  var a = function() { return canvas.getActiveObject(); };
+  var g = function() { return canvas.getActiveGroup(); };
+
+
+
+  var tmp, type, cnt=0, interval=10; // _keyboard_shortcut에서 복붙할때 필요 (아니면 캔버스 객체에 담아놓기??)
+  // typeIsObject = true/false;
+
+
+
+  // 마우스 오른쪽 클릭 이벤트
+  /*
+//  http://jsfiddle.net/Jk3Jx/1/      - 얘는 되는데 왜 나는 안되 ㅜㅜ
+//  document.getElementById('canvas').oncontextmenu = function() {
+//    console.log("right click!!");
+//  }
+
+//  http://stackoverflow.com/questions/11925358/javascript-left-and-right-click-function
+
+
+  document.getElementById('canvas').addEventListener('mouseup', function() {  //'click'
+    console.log(arguments);
+
+  })
+
+  document.getElementById('canvas').onclick = function() {
+    console.log(arguments);
+
+  }
+  */
+
+
+</script>
+
+</body>
+</html>
